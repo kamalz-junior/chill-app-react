@@ -59,7 +59,7 @@ export const tedLasso = {
     {
       episodeNumber: 1,
       title: "Pilot",
-      img: "src/assets/images/ted-lasso-1.png",
+      img: "images/ted-lasso-1.png",
       releaseDate: "August 14, 2020",
       description:
         "Ted arrives in London to coach AFC Richmond, facing hostility from fans and players.",
@@ -67,7 +67,7 @@ export const tedLasso = {
     {
       episodeNumber: 2,
       title: "Biscuits",
-      img: "src/assets/images/ted-lasso-2.png",
+      img: "images/ted-lasso-2.png",
       releaseDate: "August 14, 2020",
       description:
         "Ted bonds with Rebecca through homemade biscuits while adjusting to his new role.",
@@ -75,7 +75,7 @@ export const tedLasso = {
     {
       episodeNumber: 3,
       title: "Trent Crimm: The Independent",
-      img: "src/assets/images/ted-lasso-3.png",
+      img: "images/ted-lasso-3.png",
       releaseDate: "August 14, 2020",
       description:
         "A cynical journalist shadows Ted for a day, leading to unexpected insights.",
@@ -83,7 +83,7 @@ export const tedLasso = {
     {
       episodeNumber: 4,
       title: "For the Children",
-      img: "src/assets/images/ted-lasso-4.png",
+      img: "images/ted-lasso-4.png",
       releaseDate: "August 21, 2020",
       description:
         "Ted orchestrates a reconciliation between Roy and Jamie at a charity gala.",
@@ -91,7 +91,7 @@ export const tedLasso = {
     {
       episodeNumber: 5,
       title: "Tan Lines",
-      img: "src/assets/images/ted-lasso-5.png",
+      img: "images/ted-lasso-5.png",
       releaseDate: "August 28, 2020",
       description:
         "Ted’s wife and son visit, prompting tough decisions during a crucial match.",
@@ -99,7 +99,7 @@ export const tedLasso = {
     {
       episodeNumber: 6,
       title: "Two Aces",
-      img: "src/assets/images/ted-lasso-0.png",
+      img: "images/ted-lasso-0.png",
       releaseDate: "September 4, 2020",
       description:
         "Ted recruits Dani Rojas to replace an uncooperative Jamie, but a curse strikes the team.",

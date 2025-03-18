@@ -26,8 +26,8 @@ export default function WatchMovie() {
         <div className="relative aspect-video overflow-hidden rounded-md border">
           <video
             className="size-full"
-            src="src/assets/videos/Ted-Lasso-Darts-Scene-Be-Curious-Not-Judgemental.webm"
-            poster="src/assets/images/watch-movies.png"
+            src="videos/Ted-Lasso-Darts-Scene-Be-Curious-Not-Judgemental.webm"
+            poster="images/watch-movies.png"
           ></video>
           <div className="absolute inset-0 flex items-center justify-center bg-black/40">
             <CirclePause className="size-10" />

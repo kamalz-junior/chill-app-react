@@ -6,11 +6,11 @@ export default function SignIn() {
   const navigate = useNavigate();
 
   return (
-    <main className="flex h-dvh items-center justify-center bg-[url('src/assets/images/bg-daftar.png')]">
+    <main className="flex h-dvh items-center justify-center bg-[url('images/bg-daftar.png')]">
       <div className="z-50 w-full max-w-sm space-y-6 rounded-xl border bg-zinc-800/80 p-6">
         <div className="space-y-2">
           <img
-            src="src/assets/images/Logo (1).png"
+            src="images/Logo (1).png"
             alt=""
             className="mx-auto"
           />
@@ -74,7 +74,7 @@ export default function SignIn() {
               variant="ghost"
               className="w-full border hover:bg-zinc-800/20"
             >
-              <img src="src/assets/images/google-icon.png" alt="" />
+              <img src="images/google-icon.png" alt="" />
               Masuk dengan Google
             </Button>
           </div>

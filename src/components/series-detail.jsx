@@ -9,7 +9,7 @@ export default function SeriesDetail({ data }) {
       <figure className="relative overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-t from-black" />
         <img
-          src="src/assets/images/ted-lasso-h.png"
+          src="images/ted-lasso-h.png"
           alt=""
           className="aspect-video h-[400px] w-full object-cover"
         />

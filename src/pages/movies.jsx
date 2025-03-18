@@ -13,7 +13,7 @@ import { Guardians } from "~/data/movies";
 
 export default function Movies() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenGenre, setIsOpenGenre] = useState(true);
+  const [isOpenGenre, setIsOpenGenre] = useState(false);
 
   const history = data.filter(
     (item) => item.status === "watching" && item.type === "movie",
@@ -31,7 +31,7 @@ export default function Movies() {
       <section className="relative">
         <div className="absolute inset-0 bg-linear-to-t from-black" />
         <img
-          src="src/assets/images/hero-movies.png"
+          src="images/hero-movies.png"
           alt=""
           className="aspect-video h-[520px] w-screen overflow-x-visible object-cover"
         />
@@ -39,7 +39,6 @@ export default function Movies() {
           <div className="container space-y-6 py-6">
             <div className="space-y-4">
               <div
-                // onClick={() => setIsOpenGenre(true)}
                 onMouseOver={() => setIsOpenGenre(true)}
                 onMouseLeave={() => setIsOpenGenre(false)}
                 className="relative z-50 inline-block py-8"

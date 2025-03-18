@@ -9,7 +9,7 @@ export default function Profile() {
       <section className="flex flex-col gap-6 md:flex-row-reverse">
         <div className="h-fit flex-1 space-y-4 rounded-md bg-muted p-6">
           <div className="flex gap-4">
-            <img src="src/assets/images/Warning.png" alt="" />
+            <img src="images/Warning.png" alt="" />
             <div className="space-y-2">
               <h3 className="font-medium">Saat Ini anda belum berlangganan</h3>
               <p className="text-muted-foreground">
@@ -34,7 +34,7 @@ export default function Profile() {
             <label className="group inline-block">
               <figure className="relative size-20 overflow-hidden rounded-full border">
                 <img
-                  src="src/assets/images/Profile.png"
+                  src="images/Profile.png"
                   alt=""
                   className="size-full object-cover "
                 />

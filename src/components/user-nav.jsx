@@ -18,7 +18,7 @@ export default function UserNav() {
         onClick={() => setIsOpen(!isOpen)}
         className="rounded-full"
       >
-        <img src="src\assets\images\Profile.png" alt="" className="" />
+        <img src="\images\Profile.png" alt="" className="" />
       </Button>
 
       {isOpen ? (

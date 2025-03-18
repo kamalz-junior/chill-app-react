@@ -15,7 +15,7 @@ export default function Navbar() {
           <Link to="/">
             <span className="font-bold">
               <img
-                src="src/assets/images/Logo (1).png"
+                src="images/Logo (1).png"
                 alt=""
                 className="w-14 md:w-20"
               />

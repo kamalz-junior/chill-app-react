@@ -9,7 +9,7 @@ export default function MoviesDetail({ data }) {
       <figure className="relative overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-t from-black" />
         <img
-          src="src/assets/images/guardian.png"
+          src="images/guardian.png"
           alt=""
           className="aspect-video h-[400px] w-full object-cover"
         />
@@ -91,19 +91,19 @@ export default function MoviesDetail({ data }) {
           <h2 className="font-medium">Rekomendasi Serupa</h2>
           <div className="flex justify-between gap-4">
             <img
-              src="src\assets\images\The-Tomorrow-War.png"
+              src="\images\The-Tomorrow-War.png"
               alt=""
               className="w-1/3 rounded-sm"
             />
 
             <img
-              src="src\assets\images\Spiderman.png"
+              src="\images\Spiderman.png"
               alt=""
               className="w-1/3 rounded-sm"
             />
 
             <img
-              src="src\assets\images\Guardians.png"
+              src="\images\Guardians.png"
               alt=""
               className="w-1/3 rounded-sm"
             />

@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="container space-y-6 md:flex md:justify-between">
         <div className="space-y-2">
           <span className="font-bold text-lg">
-            <img src="src/assets/images/Logo (1).png" alt="" />
+            <img src="images/Logo (1).png" alt="" />
           </span>
           <p className="text-muted-foreground text-sm">
             2025. All rights reserved.

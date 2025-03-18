@@ -24,7 +24,7 @@ export default function Home() {
       <section className="relative">
         <div className="absolute inset-0 bg-linear-to-t from-black" />
         <img
-          src="src/assets/images/Hero.png"
+          src="images/Hero.png"
           alt=""
           className="aspect-video h-[520px] w-screen overflow-x-visible object-cover"
         />
