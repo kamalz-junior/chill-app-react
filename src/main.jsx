@@ -3,20 +3,19 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
 import UserLayout from "~/layouts/user-layout";
-import Checkout from "~/pages/checkout";
 import Home from "~/pages/home";
 import Movies from "~/pages/movies";
 import Payment from "~/pages/payment";
-// import PaymentDetail from "~/pages/payment-detail";
+import Checkout from "~/pages/checkout";
 import Profile from "~/pages/profile";
 import Series from "~/pages/series";
 import SignIn from "~/pages/sign-in";
 import SignUp from "~/pages/sign-up";
 import Watch from "~/pages/watch";
 import Watchlist from "~/pages/watchlist";
-import CardSubscibe from "./components/card-subscribe";
-import Premium from "./pages/premium";
 import WatchMovie from "./pages/watch-movie";
+import Premium from "./pages/premium";
+import CardSubscibe from "./components/card-subscribe";
 
 const root = createRoot(document.getElementById("root"));
 

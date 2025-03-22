@@ -17,13 +17,7 @@ export default function Profile() {
   const [checkout, _setCheckout] = useState(
     JSON.parse(window.localStorage.getItem("checkout")),
   );
-  // console.log(user)
-
   const navigate = useNavigate();
-
-  // if (!user) {
-  //   navigate("/sign-in")
-  // }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,14 +33,11 @@ export default function Profile() {
   const expired = new Date(transaction.date).setMonth(
     new Date(transaction.date).getMonth() + 1,
   );
-
-  const IS_PREMIUM = true;
-
   return (
     <main className="container space-y-8 py-8">
       <section className="flex flex-col gap-6 md:flex-row-reverse">
         <CardSubscibe
-          isPremium={IS_PREMIUM}
+          isPremium={user.isPremium}
           name={checkout.plan.name}
           date={formatDate(expired)}
         />

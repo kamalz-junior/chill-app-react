@@ -1,5 +1,5 @@
-import { CreditCard } from "lucide-react";
-import { useState } from "react";
+import { Copy, CreditCard, Wallet } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import PlanCard from "~/components/plan-card";
 import Button from "~/components/ui/button";
