@@ -60,7 +60,7 @@ const links = [
   { href: "/profile", label: "Profile", icon: <User className="size-4" /> },
 
   {
-    href: "/pricing",
+    href: "/premium",
     label: "Subscription",
     icon: <Gem className="size-4" />,
   },

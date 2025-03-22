@@ -1,5 +1,6 @@
 export const plans = [
   {
+    id: "plan_individu",
     name: "Individu",
     description:
       "Streaming terjangkau untuk satu pengguna dengan kualitas standar",
@@ -15,6 +16,7 @@ export const plans = [
     features: ["Tidak ada iklan", "Kualitas 720p", "Download konten pilihan"],
   },
   {
+    id: "plan_berdua",
     name: "Berdua",
     description: "FHD streaming for small households or with friends",
     price: {
@@ -29,6 +31,7 @@ export const plans = [
     features: ["Tidak ada iklan", "Kualitas 1080p", "Download konten pilihan"],
   },
   {
+    id: "plan_keluarga",
     name: "Keluarga",
     description: "Ultimate 4K experience for families or enthusiasts",
     price: {

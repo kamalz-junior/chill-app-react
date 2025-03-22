@@ -2,6 +2,8 @@ import { Plus, VolumeOff } from "lucide-react";
 import { Link } from "react-router";
 import Badge from "~/components/ui/badge";
 import Button, { button } from "~/components/ui/button";
+import { data as movies } from "~/data/data";
+import CardPoster from "./card-poster";
 
 export default function MoviesDetail({ data }) {
   return (
@@ -89,24 +91,10 @@ export default function MoviesDetail({ data }) {
         </div>
         <div className="space-y-4">
           <h2 className="font-medium">Rekomendasi Serupa</h2>
-          <div className="flex justify-between gap-4">
-            <img
-              src="\images\The-Tomorrow-War.png"
-              alt=""
-              className="w-1/3 rounded-sm"
-            />
-
-            <img
-              src="\images\Spiderman.png"
-              alt=""
-              className="w-1/3 rounded-sm"
-            />
-
-            <img
-              src="\images\Guardians.png"
-              alt=""
-              className="w-1/3 rounded-sm"
-            />
+          <div className="grid grid-cols-3 gap-4">
+            {[movies[19], movies[16], movies[21]].map((item) => (
+              <CardPoster key={item.id} data={item} />
+            ))}
           </div>
         </div>
       </div>

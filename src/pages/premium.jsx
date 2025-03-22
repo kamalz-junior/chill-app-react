@@ -2,7 +2,7 @@ import Features from "~/components/features";
 import PlanCard from "~/components/plan-card";
 import { plans } from "~/constants/plans";
 
-export default function Pricing() {
+export default function Premium() {
   return (
     <main className="container space-y-8 py-8">
       <section className="space-y-6">

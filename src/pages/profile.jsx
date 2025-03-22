@@ -1,36 +1,58 @@
-import { Camera, Gem } from "lucide-react";
-import { Link } from "react-router";
-import Button, { button } from "~/components/ui/button";
+import { Camera } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import CardSubscibe from "~/components/card-subscribe";
+import Button from "~/components/ui/button";
 import Input from "~/components/ui/input";
+import { formatDate } from "~/lib/utils";
 
 export default function Profile() {
+  const [isEdit, setIsEdit] = useState(false);
+  const [user, setUser] = useState(
+    JSON.parse(window.localStorage.getItem("user")),
+  );
+  const [transaction, _setTransaction] = useState(
+    JSON.parse(window.localStorage.getItem("transactions")),
+  );
+  const [checkout, _setCheckout] = useState(
+    JSON.parse(window.localStorage.getItem("checkout")),
+  );
+  // console.log(user)
+
+  const navigate = useNavigate();
+
+  // if (!user) {
+  //   navigate("/sign-in")
+  // }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    window.localStorage.setItem("user", JSON.stringify(user));
+
+    setIsEdit(false);
+  };
+  const handleDeleteAccount = () => {
+    window.localStorage.removeItem("user");
+    navigate("/sign-in");
+  };
+
+  const expired = new Date(transaction.date).setMonth(
+    new Date(transaction.date).getMonth() + 1,
+  );
+
+  const IS_PREMIUM = true;
+
   return (
     <main className="container space-y-8 py-8">
       <section className="flex flex-col gap-6 md:flex-row-reverse">
-        <div className="h-fit flex-1 space-y-4 rounded-md bg-muted p-6">
-          <div className="flex gap-4">
-            <img src="images/Warning.png" alt="" />
-            <div className="space-y-2">
-              <h3 className="font-medium">Saat Ini anda belum berlangganan</h3>
-              <p className="text-muted-foreground">
-                Dapatkan Akses Tak Terbatas ke Ribuan Film dan Series Kesukaan
-                Kamu!
-              </p>
-            </div>
-          </div>
-          <Link
-            to="/pricing"
-            className={button({
-              variant: "primary",
-              className: "relative -right-22",
-            })}
-          >
-            Mulai Berlangganan
-          </Link>
-        </div>
+        <CardSubscibe
+          isPremium={IS_PREMIUM}
+          name={checkout.plan.name}
+          date={formatDate(expired)}
+        />
         <div className="w-full flex-1 space-y-6">
           <h1 className="font-medium text-2xl">My Profile</h1>
-          <form action="" className="space-y-4">
+          <form action="" className="space-y-4" onSubmit={handleSubmit}>
             <label className="group inline-block">
               <figure className="relative size-20 overflow-hidden rounded-full border">
                 <img
@@ -48,7 +70,18 @@ export default function Profile() {
               <label htmlFor="username" className="font-medium text-sm">
                 Username
               </label>
-              <Input id="username" defaultValue="muhammad" required />
+              <Input
+                id="username"
+                defaultValue={user.username}
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    username: e.target.value,
+                  })
+                }
+                disabled={!isEdit}
+                required
+              />
             </div>
             <div className="grid gap-2">
               <label htmlFor="email" className="font-medium text-sm">
@@ -57,7 +90,14 @@ export default function Profile() {
               <Input
                 id="email"
                 type="email"
-                defaultValue="muhammad@gmail.com"
+                defaultValue={user.email}
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    email: e.target.value,
+                  })
+                }
+                disabled={!isEdit}
                 required
               />
             </div>
@@ -67,19 +107,45 @@ export default function Profile() {
               </label>
               <Input
                 id="password"
-                defaultValue="harisenin"
                 type="password"
+                defaultValue={user.password}
+                onChange={(e) =>
+                  setUser({
+                    ...user,
+                    password: e.target.value,
+                  })
+                }
+                disabled={!isEdit}
                 required
               />
             </div>
             <div className="space-y-2">
-              <Button className="w-full" disabled>
+              <Button type="submit" disabled={!isEdit} className="w-full">
                 Simpan
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full"
+                onClick={() => setIsEdit(true)}
+                disabled={isEdit}
+              >
+                Edit
               </Button>
             </div>
           </form>
         </div>
       </section>
+      <div className="space-y-2">
+        <h2 className="font-medium">Hapus Akun</h2>
+        <Button
+          variant="outline"
+          onClick={handleDeleteAccount}
+          className="border-red-500 bg-transparent text-red-500 transition duration-150 hover:bg-red-500 hover:text-white"
+        >
+          Hapus Akun
+        </Button>
+      </div>
     </main>
   );
 }

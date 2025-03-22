@@ -1,36 +1,57 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import Button, {} from "~/components/ui/button";
 import Input from "~/components/ui/input";
 
 export default function SignIn() {
+  const [userLocal, _setUserLocal] = useState(
+    JSON.parse(window.localStorage.getItem("user")),
+  );
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
+
   const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (
+      user.username === userLocal.username &&
+      user.password === userLocal.password
+    ) {
+      navigate("/");
+    }
+  };
 
   return (
     <main className="flex h-dvh items-center justify-center bg-[url('images/bg-masuk.png')]">
       <div className="z-50 w-full max-w-sm space-y-6 rounded-xl border bg-zinc-800/80 p-6">
         <div className="space-y-2">
-          <img
-            src="images/Logo (1).png"
-            alt=""
-            className="mx-auto"
-          />
+          <img src="images/Logo (1).png" alt="" className="mx-auto" />
           <h1 className="text-center font-medium text-xl">Masuk</h1>
           <p className="text-center text-muted-foreground text-sm">
             Selamat datang kembali!
           </p>
         </div>
-        <form
-          className="space-y-4"
-          onSubmit={(event) => {
-            event.preventDefault();
-            navigate("/");
-          }}
-        >
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="grid gap-2">
             <label htmlFor="username" className="font-medium text-sm">
               Username
             </label>
-            <Input id="username" placeholder="Masukan username" required />
+            <Input
+              id="username"
+              placeholder="Masukan username"
+              defaultValue={user.username}
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  username: e.target.value,
+                })
+              }
+              required
+            />
           </div>
           <div className="grid gap-2">
             <label htmlFor="password" className="font-medium text-sm">
@@ -40,6 +61,13 @@ export default function SignIn() {
               id="password"
               type="password"
               placeholder="Masukan kata sandi"
+              defaultValue={user.password}
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  password: e.target.value,
+                })
+              }
               required
             />
           </div>

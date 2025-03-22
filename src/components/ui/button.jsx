@@ -1,7 +1,7 @@
 import { tv } from "tailwind-variants";
 
 export const button = tv({
-  base: "inline-flex items-center justify-center gap-2 rounded-md font-medium text-sm outline-hidden focus-visible:ring-3 focus-visible:ring-primary/20",
+  base: "inline-flex items-center justify-center gap-2 rounded-md font-medium text-sm outline-hidden focus-visible:ring-3 focus-visible:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50",
   variants: {
     variant: {
       primary: "bg-primary text-primary-foreground hover:bg-primary/80",

@@ -1,45 +1,50 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import Button, {} from "~/components/ui/button";
 import Input from "~/components/ui/input";
 
 export default function SignIn() {
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+    isPremium: false,
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    window.localStorage.setItem("user", JSON.stringify(user));
+
+    navigate("/sign-in");
+  };
+
   const navigate = useNavigate();
 
   return (
     <main className="flex h-dvh items-center justify-center bg-[url('images/bg-daftar.png')]">
       <div className="z-50 w-full max-w-sm space-y-6 rounded-xl border bg-zinc-800/80 p-6">
         <div className="space-y-2">
-          <img
-            src="images/Logo (1).png"
-            alt=""
-            className="mx-auto"
-          />
+          <img src="images/Logo (1).png" alt="" className="mx-auto" />
           <h1 className="text-center font-medium text-xl">Masuk</h1>
           <p className="text-center text-muted-foreground text-sm">
             Selamat datang kembali!
           </p>
         </div>
-        <form
-          className="space-y-4"
-          onSubmit={(event) => {
-            event.preventDefault();
-            navigate("/");
-          }}
-        >
+        <form action="" className="space-y-4" onSubmit={handleSubmit}>
           <div className="grid gap-2">
             <label htmlFor="username" className="font-medium text-sm">
               Username
             </label>
-            <Input id="username" placeholder="Masukan username" required />
-          </div>
-          <div className="grid gap-2">
-            <label htmlFor="password" className="font-medium text-sm">
-              Kata Sandi
-            </label>
             <Input
-              id="password"
-              type="password"
-              placeholder="Masukan kata sandi"
+              id="username"
+              defaultValue={user.username}
+              placeholder="Masukan username"
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  username: e.target.value,
+                })
+              }
               required
             />
           </div>
@@ -51,6 +56,31 @@ export default function SignIn() {
               id="password"
               type="password"
               placeholder="Masukan kata sandi"
+              defaultValue={user.password}
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  password: e.target.value,
+                })
+              }
+              required
+            />
+          </div>
+          <div className="grid gap-2">
+            <label htmlFor="password" className="font-medium text-sm">
+              Konfirmasi Kata Sandi
+            </label>
+            <Input
+              id="password"
+              type="password"
+              placeholder="Konfirmasi Masukan kata sandi"
+              defaultValue={user.confirmPassword}
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  confirmPassword: e.target.value,
+                })
+              }
               required
             />
           </div>

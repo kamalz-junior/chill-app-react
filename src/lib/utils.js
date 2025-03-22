@@ -5,3 +5,7 @@ export function formatCurrency(price, currency) {
     minimumFractionDigits: 0,
   }).format(price);
 }
+
+export function formatDate(date) {
+  return new Date(date).toISOString().split("T")[0];
+}

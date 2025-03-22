@@ -1,12 +1,10 @@
-import { ChevronDown } from "lucide-react";
 import { useState } from "react";
-import { href, Link, NavLink } from "react-router";
-import Button, { button } from "~/components/ui/button";
+import { Link, NavLink } from "react-router";
+import { button } from "~/components/ui/button";
 import UserNav from "~/components/user-nav";
-import { genres } from "~/constants/genres";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [_isOpen, _setIsOpen] = useState(false);
 
   return (
     <header className="w-full py-4">
@@ -14,11 +12,7 @@ export default function Navbar() {
         <div className="flex items-center gap-x-2 md:gap-x-10">
           <Link to="/">
             <span className="font-bold">
-              <img
-                src="images/Logo (1).png"
-                alt=""
-                className="w-14 md:w-20"
-              />
+              <img src="images/Logo (1).png" alt="" className="w-14 md:w-20" />
             </span>
           </Link>
           <nav className="flex items-center">

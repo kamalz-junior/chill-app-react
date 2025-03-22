@@ -33,7 +33,10 @@ export default function PlanCard({ plan, className }) {
           </li>
         ))}
       </ul>
-      <Link to="/payment" className={button({ className: "w-full" })}>
+      <Link
+        to={`/checkout/${plan.id}`}
+        className={button({ className: "w-full" })}
+      >
         Langganan
       </Link>
     </div>
