@@ -5,13 +5,13 @@ import { button } from "./ui/button";
 export default function CardSubscibe({ isPremium, name, date }) {
   return (
     <div
-      className={`h-fit w-fit md:w-1/2 rounded-md border p-6 ${isPremium ? "bg-primary" : "bg-muted"}`}
+      className={`h-fit w-fit rounded-md border p-6 md:w-1/2 ${isPremium ? "bg-primary" : "bg-muted"}`}
     >
       <div className="flex items-center gap-4">
         <img src="images/Warning.png" alt="" className="size-22" />
         <div className="space-y-4">
           {isPremium && (
-            <Badge className="bg-white px-4 py-1 text-muted text-xs md:text-sm hover:bg-white">
+            <Badge className="bg-white px-4 py-1 text-muted text-xs hover:bg-white md:text-sm">
               Aktif
             </Badge>
           )}

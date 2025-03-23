@@ -1,5 +1,5 @@
 import { Camera } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import CardSubscibe from "~/components/card-subscribe";
 import Button from "~/components/ui/button";
