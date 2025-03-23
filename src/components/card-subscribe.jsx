@@ -5,21 +5,21 @@ import { button } from "./ui/button";
 export default function CardSubscibe({ isPremium, name, date }) {
   return (
     <div
-      className={`h-fit w-1/2 rounded-md border p-6 ${isPremium ? "bg-primary" : "bg-muted"}`}
+      className={`h-fit w-fit md:w-1/2 rounded-md border p-6 ${isPremium ? "bg-primary" : "bg-muted"}`}
     >
       <div className="flex items-center gap-4">
         <img src="images/Warning.png" alt="" className="size-22" />
         <div className="space-y-4">
           {isPremium && (
-            <Badge className="bg-white px-4 py-1 text-muted text-sm hover:bg-white">
+            <Badge className="bg-white px-4 py-1 text-muted text-xs md:text-sm hover:bg-white">
               Aktif
             </Badge>
           )}
           <div className="space-y-1">
-            <h3 className="font-medium">
+            <h3 className="font-medium text-xs md:text-base">
               {isPremium ? `Akun Premium ${name}✨` : "Anda belum Berlangganan"}
             </h3>
-            <p className="">
+            <p className="w-full text-xs md:text-base">
               {isPremium
                 ? "Saat ini kamu sedang menggunakan akses akun premium"
                 : "Dapatkan Akses Tak Terbatas ke Ribuan Film dan Series Kesukaan Kamu!"}
@@ -35,8 +35,9 @@ export default function CardSubscibe({ isPremium, name, date }) {
               Subscribe
             </Link>
           ) : (
-            <p className="">
-              Berlaku hingga <span className="text-sm">{date}</span>
+            <p className="text-xs md:text-base">
+              Berlaku hingga{" "}
+              <span className="text-xs md:text-base">{date}</span>
             </p>
           )}
         </div>
