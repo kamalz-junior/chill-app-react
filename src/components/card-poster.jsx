@@ -2,6 +2,7 @@ import { Check, ChevronDown, Play } from "lucide-react";
 import { useState } from "react";
 import Badge from "~/components/ui/badge";
 import Button from "~/components/ui/button";
+import { imgUrl } from "~/service/api";
 
 export default function CardPoster({ data, className, ...props }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -16,7 +17,7 @@ export default function CardPoster({ data, className, ...props }) {
           <Badge className="absolute top-4 left-4">Premium</Badge>
         )}
         <div className="absolute inset-0 bg-linear-to-t from-black/50" />
-        <img src={data.img} alt="" className="size-full object-cover" />
+        <img src={imgUrl + data.poster_path} alt="" className="size-full object-cover" />
       </figure>
       {isHovered ? (
         <Preview

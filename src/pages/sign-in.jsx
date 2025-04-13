@@ -2,27 +2,29 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import Button, {} from "~/components/ui/button";
 import Input from "~/components/ui/input";
+import { signIn } from "~/lib/actions";
+import { useSession } from "~/lib/store";
 
 export default function SignIn() {
-  const [userLocal, _setUserLocal] = useState(
-    JSON.parse(window.localStorage.getItem("user")),
-  );
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
 
   const navigate = useNavigate();
+  const { session, setSession } = useSession();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (
-      user.username === userLocal.username &&
-      user.password === userLocal.password
-    ) {
-      navigate("/");
-    }
+    
+    await signIn(user).then((result) => {
+      if (!result) return
+      
+      setSession({
+        userId: result.id,
+      });
+      navigate("/")
+    });
   };
 
   return (

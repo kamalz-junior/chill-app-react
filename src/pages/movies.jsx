@@ -1,5 +1,5 @@
 import { ChevronDown, VolumeOff } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardPoster from "~/components/card-poster";
 import CardThumbnail from "~/components/card-thumbnail";
 import MovieDetail from "~/components/movies-detail";
@@ -10,22 +10,37 @@ import Dialog from "~/components/ui/dialog";
 import { genres } from "~/constants/genres";
 import { data } from "~/data/data";
 import { Guardians } from "~/data/movies";
+import { getMovies, getMoviesPopular, getMoviesRelease, getMoviesTop } from "~/service/api";
 
 export default function Movies() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenGenre, setIsOpenGenre] = useState(false);
+  const [movies, setMovies] = useState([]);
+  const [popular, setPopular] = useState([]);
+  const [top, setTop] = useState([]);
+  const [release, setRelease] = useState([]);
 
-  const history = data.filter(
-    (item) => item.status === "watching" && item.type === "movie",
-  );
-  const top = data.filter((item) => item.top === true && item.type === "movie");
+  useEffect(() => {
+       getMovies().then((result) => {
+        setMovies(result)
+      })
+       getMoviesPopular().then((result) => {
+        setPopular(result)
+      })
+       getMoviesTop().then((result) => {
+        setTop(result)
+      })
+       getMoviesRelease().then((result) => {
+        setRelease(result)
+      })
 
-  const trending = data.filter(
-    (item) => item.trending === true && item.type === "movie",
-  );
+    }, [])
 
-  const movies = data.filter((item) => item.type === "movie");
-
+    const movie = movies;
+    const trending = popular;
+    const topMovie = top;
+    const releaseMovie = release;
+    
   return (
     <main className="space-y-8 pb-8">
       <section className="relative">
@@ -115,7 +130,7 @@ export default function Movies() {
       <section className="container space-y-6">
         <h2 className="font-medium text-xl">Film Persembahan Chill</h2>
         <Carousel controls>
-          {movies.map((movie) => (
+          {movie.map((movie) => (
             <CardPoster
               key={movie.id}
               data={movie}
@@ -126,9 +141,9 @@ export default function Movies() {
         </Carousel>
       </section>
       <section className="container space-y-6">
-        <h2 className="font-medium text-xl">Top Rating Series Hari ini</h2>
+        <h2 className="font-medium text-xl">Top Rating Movies Hari ini</h2>
         <Carousel controls>
-          {top.map((item) => (
+          {topMovie.map((item) => (
             <CardPoster
               key={item.id}
               data={item}
@@ -154,7 +169,7 @@ export default function Movies() {
       <section className="container space-y-6">
         <h2 className="font-medium text-xl">Rilis Baru</h2>
         <Carousel controls>
-          {movies.map((item) => (
+          {releaseMovie.map((item) => (
             <CardPoster
               key={item.id}
               data={item}

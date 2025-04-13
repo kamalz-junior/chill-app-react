@@ -1,72 +1,100 @@
 import { Camera } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import CardSubscibe from "~/components/card-subscribe";
 import Button from "~/components/ui/button";
 import Input from "~/components/ui/input";
-import { formatDate } from "~/lib/utils";
+import { useSession } from "~/lib/store";
+import { API_URL } from "~/service/api";
 
 export default function Profile() {
   const [isEdit, setIsEdit] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [transaction, setTransaction] = useState(null);
-  const [checkout, setCheckout] = useState(null);
+  const [loading, setLoading] = useState(true)
+  
+  const {session} = useSession();
+
+  console.log(API_URL)
 
   useEffect(() => {
-    try {
-      const storedUser = JSON.parse(localStorage.getItem("user")) || {
-        username: "",
-        email: "",
-        password: "",
-        isPremium: false,
-      };
+    getUser(session.userId).then((result) => {
+      setUser(result);
+    });
 
-      const storedTransaction =
-        JSON.parse(localStorage.getItem("transactions")) || null;
-      const storedCheckout = JSON.parse(localStorage.getItem("checkout")) || {
-        plan: { name: "Free Plan" },
-      };
+    async function getUser(id) {
+      try {
+        const response = await fetch(`${API_URL}/users/${id}`);
 
-      setUser(storedUser);
-      setTransaction(storedTransaction);
-      setCheckout(storedCheckout);
-    } catch (error) {
-      console.error("Error parsing localStorage data:", error);
+        if(!response.ok){
+          throw new Error(`Response status: ${response.status}`);
+        }
+        const data = await response.json();
+        setUser(data);
+        setLoading(false);
+      } catch (error) {
+        console.log("Failed fetch user: ", error);
+      }
     }
+    getUser(USER_ID);
   }, []);
 
   // Jika data belum siap, tampilkan loading
-  if (!user || !checkout) {
+  if (loading) {
     return <p className="text-center">Loading...</p>;
   }
 
   // Pastikan transaction ada sebelum mengakses date
-  const transactionDate = transaction?.date
-    ? new Date(transaction.date)
-    : new Date();
-  const expired = new Date(transactionDate);
-  expired.setMonth(expired.getMonth() + 1);
+  // const transactionDate = transaction?.date
+  //   ? new Date(transaction.date)
+  //   : new Date();
+  // const expired = new Date(transactionDate);
+  // expired.setMonth(expired.getMonth() + 1);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem("user", JSON.stringify(user));
-    setIsEdit(false);
+    try {
+      const response = await fetch(`${API_URL}/users/${id}`, {
+        method: "PUT", 
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      if(!response.ok){
+        return new Error("Response status: ", response.status);
+      }
+      console.log("Berhasil diubah");
+    } catch (error) {
+      console.error("Failed update user : ", error);
+    }
   };
 
-  const handleDeleteAccount = () => {
-    localStorage.removeItem("user");
-    navigate("/sign-in");
+  const handleDeleteAccount = async () => {
+    
+    try {
+      const response = await fetch(`${API_URL}/users/${USER_ID}`, {
+        method: "DELETE",
+      })
+
+      if(!response.ok){
+        return new Error("Response status: ", response.status);
+      }
+      
+      navigate("/sign-in");
+    } catch (error) {
+      console.log("Failed delete user: ", error);
+    }
   };
 
   return (
     <main className="container space-y-8 py-8">
       <section className="flex flex-col gap-6 md:flex-row-reverse">
-        <CardSubscibe
+        {/* <CardSubscibe
           isPremium={user.isPremium}
           name={checkout.plan.name}
           date={formatDate(expired)}
-        />
+        /> */}
         <div className="w-full flex-1 space-y-6">
           <h1 className="font-medium text-2xl">My Profile</h1>
           <form className="space-y-4" onSubmit={handleSubmit}>

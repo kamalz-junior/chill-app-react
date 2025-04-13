@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import Button, {} from "~/components/ui/button";
 import Input from "~/components/ui/input";
+import { API_URL } from "~/service/api";
 
-export default function SignIn() {
+export default function SignUp() {
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -11,14 +12,32 @@ export default function SignIn() {
     isPremium: false,
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    window.localStorage.setItem("user", JSON.stringify(user));
+  const navigate = useNavigate();
 
-    navigate("/sign-in");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { confirmPassword, ...data } = user;
+
+    try {
+      const response = await fetch(`${API_URL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+      if (!response.oke){
+        return new Error("Response status: ", response.status);
+      }
+      console.log("berhasil")
+      navigate("/sign-in");
+      console.log(response)
+
+    } catch (error) {
+      console.error("Failed fetch user: ", error);
+    }
   };
 
-  const navigate = useNavigate();
 
   return (
     <main className="flex h-dvh items-center justify-center bg-[url('images/bg-daftar.png')]">

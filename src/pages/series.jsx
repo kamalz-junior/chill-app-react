@@ -1,5 +1,5 @@
 import { ChevronDown, VolumeOff } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardPoster from "~/components/card-poster";
 import CardThumbnail from "~/components/card-thumbnail";
 import SeriesDetail from "~/components/series-detail";
@@ -10,23 +10,40 @@ import Dialog from "~/components/ui/dialog";
 import { genres } from "~/constants/genres";
 import { data } from "~/data/data";
 import { tedLasso } from "~/data/series";
+import { getTv, getTvPopular, getTvRelease, getTvTop } from "~/service/api";
 
 export default function Series() {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenGenre, setIsOpenGenre] = useState(false);
+  const [tv, setTv] = useState([]);
+  const [top, setTop] = useState([]);
+  const [popular, setPopular] = useState([]);
+  const [release, setRelease] = useState([]);
+
+  useEffect(() => {
+     getTv().then((result) => {
+      setTv(result)
+    })
+     getTvTop().then((result) => {
+      setTop(result)
+    })
+     getTvPopular().then((result) => {
+      setPopular(result)
+    })
+     getTvRelease().then((result) => {
+      setRelease(result)
+    })
+  }, [])
 
   const history = data.filter(
     (item) => item.status === "watching" && item.type === "series",
   );
 
-  const top = data.filter(
-    (item) => item.top === true && item.type === "series",
-  );
-
-  const trending = data.filter(
-    (item) => item.trending === true && item.type === "series",
-  );
-  const series = data.filter((item) => item.type === "series");
+  const series = tv;
+  const seriesTop = top;
+  const trending = popular;
+  const rilis = release;
+  
 
   return (
     <main className="space-y-8 pb-8">
@@ -116,10 +133,10 @@ export default function Series() {
       <section className="container space-y-6">
         <h2 className="font-medium text-xl">Series Persembahan Chill</h2>
         <Carousel controls>
-          {series.map((s) => (
+          {series.map((item) => (
             <CardPoster
-              key={s.id}
-              data={s}
+              key={item.id}
+              data={item}
               className="min-w-0 shrink-0 grow-0 basis-1/3 lg:basis-1/5"
               onClick={() => setIsOpen(true)}
             />
@@ -129,7 +146,7 @@ export default function Series() {
       <section className="container space-y-6">
         <h2 className="font-medium text-xl">Top Rating Series Hari ini</h2>
         <Carousel controls>
-          {top.map((item) => (
+          {seriesTop.map((item) => (
             <CardPoster
               key={item.id}
               data={item}
@@ -155,7 +172,7 @@ export default function Series() {
       <section className="container space-y-6">
         <h2 className="font-medium text-xl">Rilis Baru</h2>
         <Carousel controls>
-          {data.map((item) => (
+          {rilis.map((item) => (
             <CardPoster
               key={item.id}
               data={item}
