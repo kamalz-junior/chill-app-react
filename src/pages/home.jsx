@@ -1,5 +1,5 @@
 import { VolumeOff } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardPoster from "~/components/card-poster";
 import CardThumbnail from "~/components/card-thumbnail";
 import MovieDetail from "~/components/series-detail";
@@ -9,15 +9,35 @@ import Carousel from "~/components/ui/carousel";
 import Dialog from "~/components/ui/dialog";
 import { data } from "~/data/data";
 import { tedLasso } from "~/data/series";
+import { getMoviesPopular, getMoviesRelease, getMoviesTop } from "~/service/api";
+
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
+  const [popular, setPopular] = useState([]);
+  const [top, setTop] = useState([]);
+  const [release, setRelease] = useState([]);
+
+    useEffect(() => {
+         getMoviesPopular().then((result) => {
+          setPopular(result)
+        })
+
+        getMoviesTop().then((result) => {
+          setTop(result)
+        })
+
+        getMoviesRelease().then((result) => {
+          setRelease(result)
+        })
+      }, [])
+      
+  
+      const trending = popular;
+      const topRate = top;
+      const rilis = release;
 
   const history = data.filter((item) => item.status === "watching");
-  const top = data.filter((item) => item.top === true && item.type === "movie");
-  const trending = data.filter(
-    (item) => item.trending === true && item.type === "movie",
-  );
 
   return (
     <main className="space-y-8 pb-8">
@@ -77,7 +97,7 @@ export default function Home() {
           Top rating Film dan Series Hari ini
         </h2>
         <Carousel controls>
-          {top.map((item) => (
+          {topRate.map((item) => (
             <CardPoster
               key={item.id}
               data={item}
@@ -103,7 +123,7 @@ export default function Home() {
       <section className="container space-y-6">
         <h2 className="font-medium text-xl">Rilis Baru</h2>
         <Carousel controls>
-          {data.map((item) => (
+          {rilis.map((item) => (
             <CardPoster
               key={item.id}
               data={item}

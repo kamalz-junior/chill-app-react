@@ -417,6 +417,6 @@ export const data = [
     status: "",
     isPremium: false,
     top: true,
-    trending: false,
+    trending: true,
   },
 ];

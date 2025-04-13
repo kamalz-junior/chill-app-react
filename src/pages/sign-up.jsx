@@ -4,7 +4,7 @@ import Button, {} from "~/components/ui/button";
 import Input from "~/components/ui/input";
 import { API_URL } from "~/service/api";
 
-export default function SignIn() {
+export default function SignUp() {
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -29,6 +29,7 @@ export default function SignIn() {
       if (!response.oke){
         return new Error("Response status: ", response.status);
       }
+      console.log("berhasil")
       navigate("/sign-in");
       console.log(response)
 
