@@ -8,15 +8,12 @@ export default function SignUp() {
   const [user, setUser] = useState({
     username: "",
     password: "",
-    confirmPassword: "",
-    isPremium: false,
   });
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { confirmPassword, ...data } = user;
 
     try {
       const response = await fetch(`${API_URL}/users`, {
@@ -24,14 +21,13 @@ export default function SignUp() {
         headers: {
           "Content-Type" : "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(user),
       })
-      if (!response.oke){
+      if (!response.ok){
         return new Error("Response status: ", response.status);
       }
-      console.log("berhasil")
+
       navigate("/sign-in");
-      console.log(response)
 
     } catch (error) {
       console.error("Failed fetch user: ", error);
@@ -93,13 +89,6 @@ export default function SignUp() {
               id="password"
               type="password"
               placeholder="Konfirmasi Masukan kata sandi"
-              defaultValue={user.confirmPassword}
-              onChange={(e) =>
-                setUser({
-                  ...user,
-                  confirmPassword: e.target.value,
-                })
-              }
               required
             />
           </div>

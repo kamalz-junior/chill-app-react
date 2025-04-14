@@ -20,6 +20,10 @@ export default function Movies() {
   const [top, setTop] = useState([]);
   const [release, setRelease] = useState([]);
 
+  const history = data.filter(
+    (item) => item.status === "watching" && item.type === "movie",
+  );
+
   useEffect(() => {
        getMovies().then((result) => {
         setMovies(result)
