@@ -12,18 +12,18 @@ export default function SignIn() {
   });
 
   const navigate = useNavigate();
-  const { session, setSession } = useSession();
+  const { setSession } = useSession();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    await signIn(user).then((result) => {
-      if (!result) return
-      
+
+    await signIn(user).then((res) => {
+      if (!res) return;
+
       setSession({
-        userId: result.id,
+        userId: res.id,
       });
-      navigate("/")
+      navigate("/");
     });
   };
 

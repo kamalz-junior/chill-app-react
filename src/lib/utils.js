@@ -9,3 +9,7 @@ export function formatCurrency(price, currency) {
 export function formatDate(date) {
   return new Date(date).toISOString().split("T")[0];
 }
+
+export function tmdbImage(path, type = "original") {
+  return `https://image.tmdb.org/t/p/${type}/${path}`;
+}

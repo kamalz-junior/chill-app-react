@@ -1,141 +1,137 @@
-import { VolumeOff } from "lucide-react";
 import { useEffect, useState } from "react";
-import CardPoster from "~/components/card-poster";
-import CardThumbnail from "~/components/card-thumbnail";
-import MovieDetail from "~/components/series-detail";
-import Badge from "~/components/ui/badge";
-import Button from "~/components/ui/button";
+import { Link } from "react-router";
+import PosterCard from "~/components/poster-card";
+import PosterInfo from "~/components/poster-info";
 import Carousel from "~/components/ui/carousel";
-import Dialog from "~/components/ui/dialog";
-import { data } from "~/data/data";
-import { tedLasso } from "~/data/series";
-import { getMoviesPopular, getMoviesRelease, getMoviesTop } from "~/service/api";
-
+import {
+  getMovie,
+  getMovies,
+  getTop,
+  getTrending,
+  getTvShow,
+  getWatchlist,
+} from "~/lib/tmdb";
 
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [popular, setPopular] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [movie, setMovie] = useState(null);
+  const [watchlist, setWatchlist] = useState([]);
+  const [trending, setTrending] = useState([]);
   const [top, setTop] = useState([]);
-  const [release, setRelease] = useState([]);
+  const [newRelease, setNewRelease] = useState([]);
 
-    useEffect(() => {
-         getMoviesPopular().then((result) => {
-          setPopular(result)
-        })
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [
+          moviesWatchlistRes,
+          tvWatchlistRes,
+          trendingRes,
+          topRes,
+          newReleaseRes,
+        ] = await Promise.all([
+          getWatchlist("movies"),
+          getWatchlist("tv"),
+          getTrending("all"),
+          getTop("tv"),
+          getMovies("now_playing"),
+        ]);
 
-        getMoviesTop().then((result) => {
-          setTop(result)
-        })
+        const trendingItem = trendingRes.results[0];
 
-        getMoviesRelease().then((result) => {
-          setRelease(result)
-        })
-      }, [])
-      
-  
-      const trending = popular;
-      const topRate = top;
-      const rilis = release;
+        if (trendingItem.media_type === "tv") {
+          getTvShow(trendingItem.id).then(setMovie);
+        } else if (trendingItem.media_type === "movie") {
+          getMovie(trendingItem.id).then(setMovie);
+        }
 
-  const history = data.filter((item) => item.status === "watching");
+        // getTvShow(topRes.results[0].id).then((res) => {
+        //   setTop(res);
+        // });
+
+        setWatchlist([
+          ...moviesWatchlistRes.results,
+          ...tvWatchlistRes.results,
+        ]);
+        setTrending(trendingRes.results);
+        setTop(topRes.results);
+        setNewRelease(newReleaseRes.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!movie || isLoading) return;
 
   return (
     <main className="space-y-8 pb-8">
-      <section className="relative">
-        <div className="absolute inset-0 bg-linear-to-t from-black" />
-        <img
-          src="images/Hero.png"
-          alt=""
-          className="aspect-video h-[520px] w-screen overflow-x-visible object-cover"
-        />
-        <div className="absolute bottom-0 w-full">
-          <div className="container space-y-6 py-6">
-            <div className="space-y-4">
-              <h1 className="font-medium text-3xl text-white">
-                Duty After School
-              </h1>
-              <p className="line-clamp-2 max-w-xl text-sm text-white md:line-clamp-none">
-                Sebuah benda tak dikenal mengambil alih dunia. Dalam
-                keputusasaan, Departemen Pertahanan mulai merekrut lebih banyak
-                tentara, termasuk siswa sekolah menengah. Mereka pun segera
-                menjadi pejuang garis depan dalam perang.
-              </p>
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <Button>Mulai</Button>
-                <Button variant="secondary">Selengkapnya</Button>
-                <Badge variant="outline" className="px-4 py-2">
-                  18+
-                </Badge>
-              </div>
-              <Button
-                variant="outline"
-                size="icon"
-                className="bg-transparent text-white hover:bg-transparent"
-              >
-                <VolumeOff className="size-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="container space-y-6">
-        <h2 className="font-medium text-xl">Melanjutkan tonton Film</h2>
+      <PosterInfo data={movie} className="px-16" />
+      <section className="container space-y-4">
+        <h2 className="font-medium text-xl">Continue watching</h2>
         <Carousel controls>
-          {history.map((item) => (
-            <CardThumbnail
-              key={item.id}
-              data={item}
-              className="min-w-0 shrink-0 grow-0 basis-full lg:basis-1/4"
-            />
-          ))}
-        </Carousel>
-      </section>
-      <section className="container space-y-6">
-        <h2 className="font-medium text-xl">
-          Top rating Film dan Series Hari ini
-        </h2>
-        <Carousel controls>
-          {topRate.map((item) => (
-            <CardPoster
-              key={item.id}
-              data={item}
+          {watchlist.map((w) => (
+            <Link
+              key={w.id}
+              to={`/movies/${w.id}`}
               className="min-w-0 shrink-0 grow-0 basis-1/3 lg:basis-1/5"
-              onClick={() => setIsOpen(true)}
-            />
+            >
+              <PosterCard title={w.title} src={w.poster_path} premium={false} />
+            </Link>
           ))}
         </Carousel>
       </section>
-      <section className="container space-y-6">
-        <h2 className="font-medium text-xl">Film Trending</h2>
+      <section className="container space-y-4">
+        <h2 className="font-medium text-xl">Top</h2>
+        {console.log(top)}
         <Carousel controls>
-          {trending.map((item) => (
-            <CardPoster
-              key={item.id}
-              data={item}
+          {top.map((t) => (
+            <Link
+              key={t.id}
+              to={`/movies/${t.id}`}
               className="min-w-0 shrink-0 grow-0 basis-1/3 lg:basis-1/5"
-              onClick={() => setIsOpen(true)}
-            />
+            >
+              <PosterCard title={t.name} src={t.poster_path} premium={false} />
+            </Link>
           ))}
         </Carousel>
       </section>
-      <section className="container space-y-6">
-        <h2 className="font-medium text-xl">Rilis Baru</h2>
+      <section className="container space-y-4">
+        <h2 className="font-medium text-xl">All trending movies and series</h2>
         <Carousel controls>
-          {rilis.map((item) => (
-            <CardPoster
-              key={item.id}
-              data={item}
+          {trending.map((t) => (
+            <Link
+              key={t.id}
+              to={`/movies/${t.id}`}
               className="min-w-0 shrink-0 grow-0 basis-1/3 lg:basis-1/5"
-              onClick={() => setIsOpen(true)}
-            />
+            >
+              <PosterCard
+                title={t.name || t.title}
+                src={t.poster_path}
+                premium={false}
+              />
+            </Link>
           ))}
         </Carousel>
       </section>
-      <Dialog isOpen={isOpen} setIsOpen={setIsOpen}>
-        <MovieDetail data={tedLasso} />
-      </Dialog>
+      <section className="container space-y-4">
+        <h2 className="font-medium text-xl">New release</h2>
+        <Carousel controls>
+          {newRelease.map((n) => (
+            <Link
+              key={n.id}
+              to={`/movies/${n.id}`}
+              className="min-w-0 shrink-0 grow-0 basis-1/3 lg:basis-1/5"
+            >
+              <PosterCard title={n.title} src={n.poster_path} premium={false} />
+            </Link>
+          ))}
+        </Carousel>
+      </section>
     </main>
   );
 }

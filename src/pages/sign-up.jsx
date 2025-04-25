@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import Button, {} from "~/components/ui/button";
 import Input from "~/components/ui/input";
-import { API_URL } from "~/service/api";
+import { API_URL, createUser } from "~/lib/api";
 
 export default function SignUp() {
   const [user, setUser] = useState({
@@ -15,23 +15,9 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(`${API_URL}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type" : "application/json",
-        },
-        body: JSON.stringify(user),
-      })
-      if (!response.ok){
-        return new Error("Response status: ", response.status);
-      }
-
+    await createUser(user).then(()=> {
       navigate("/sign-in");
-
-    } catch (error) {
-      console.error("Failed fetch user: ", error);
-    }
+    })
   };
 
 

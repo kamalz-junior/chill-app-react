@@ -1,4 +1,4 @@
-import { getUsers } from "~/service/api";
+import { getUsers } from "~/lib/api";
 
 export async function signIn(value){
     const users = await getUsers();

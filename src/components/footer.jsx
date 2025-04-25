@@ -1,9 +1,19 @@
+import { useEffect, useState } from "react";
 import Accordion from "~/components/ui/accordion";
 import { genres } from "~/constants/genres";
 import { useIsMobile } from "~/hooks/use-mobile";
+import { getGenreList } from "~/lib/tmdb";
 
 export default function Footer() {
+  const [genres, setGenres] = useState([]);
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    getGenreList("movie").then((res) => {
+      setGenres(res);
+    });
+  }, []);
+
   return (
     <footer className="w-full py-8">
       <div className="container space-y-6 md:flex md:justify-between">
@@ -20,20 +30,20 @@ export default function Footer() {
           <>
             <Accordion label="Genre">
               <ul className="grid grid-cols-2 gap-x-8 md:grid-cols-3">
-                {genres.map((link) => (
-                  <li key={link.label}>
+                {genres.map((g) => (
+                  <li key={g.id}>
                     <a
-                      href={link.href}
+                      href={`/genre/${g.id}`}
                       className="inline-block py-1 font-medium text-muted-foreground text-sm hover:text-foreground"
                     >
-                      {link.label}
+                      {g.name}
                     </a>
                   </li>
                 ))}
               </ul>
             </Accordion>
             <Accordion label="Help">
-              <ul className="space-y-2">
+              <ul>
                 {helps.map((link) => (
                   <li key={link.label}>
                     <a
@@ -54,13 +64,13 @@ export default function Footer() {
                 Genre
               </h3>
               <ul className="grid grid-cols-2 gap-x-8 md:grid-cols-3">
-                {genres.map((link) => (
-                  <li key={link.label}>
+                {genres.map((g) => (
+                  <li key={g.id}>
                     <a
-                      href={link.href}
+                      href={`/genre/${g.id}`}
                       className="inline-block py-1 font-medium text-muted-foreground text-sm hover:text-foreground"
                     >
-                      {link.label}
+                      {g.name}
                     </a>
                   </li>
                 ))}
@@ -68,9 +78,9 @@ export default function Footer() {
             </div>
             <div className="space-y-2">
               <h3 className="flex w-full items-center justify-between font-medium text-sm">
-                Genre
+                Help
               </h3>
-              <ul className="space-y-2">
+              <ul>
                 {helps.map((link) => (
                   <li key={link.label}>
                     <a

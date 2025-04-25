@@ -1,47 +1,29 @@
 import { Camera } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import CardSubscibe from "~/components/card-subscribe";
 import Button from "~/components/ui/button";
 import Input from "~/components/ui/input";
+import { API_URL, deleteUser, getUser, updateUser } from "~/lib/api";
 import { useSession } from "~/lib/store";
-import { API_URL } from "~/service/api";
 
 export default function Profile() {
   const [isEdit, setIsEdit] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true)
-  
-  const {session} = useSession();
+  const [checkout, setCheckout] = useState(null);
 
-  console.log(API_URL)
+  const { session, setSession } = useSession();
+
+  console.log(API_URL);
 
   useEffect(() => {
-    getUser(session.userId).then((result) => {
-      setUser(result);
+    getUser(session.userId).then((res) => {
+      setUser(res);
     });
-
-    async function getUser(id) {
-      try {
-        const response = await fetch(`${API_URL}/users/${id}`);
-
-        if(!response.ok){
-          throw new Error(`Response status: ${response.status}`);
-        }
-        const data = await response.json();
-        setUser(data);
-        setLoading(false);
-      } catch (error) {
-        console.log("Failed fetch user: ", error);
-      }
-    }
-    getUser(USER_ID);
   }, []);
 
-  // Jika data belum siap, tampilkan loading
-  if (loading) {
-    return <p className="text-center">Loading...</p>;
-  }
+  if (!user) return;
 
   // Pastikan transaction ada sebelum mengakses date
   // const transactionDate = transaction?.date
@@ -52,39 +34,21 @@ export default function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch(`${API_URL}/users/${id}`, {
-        method: "PUT", 
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
 
-      if(!response.ok){
-        return new Error("Response status: ", response.status);
-      }
-      console.log("Berhasil diubah");
-    } catch (error) {
-      console.error("Failed update user : ", error);
-    }
+    await updateUser(session.userId, user).then(() => {
+      setIsEdit(false);
+    });
   };
 
-  const handleDeleteAccount = async () => {
-    
-    try {
-      const response = await fetch(`${API_URL}/users/${USER_ID}`, {
-        method: "DELETE",
-      })
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
 
-      if(!response.ok){
-        return new Error("Response status: ", response.status);
-      }
-      
+    await deleteUser(session.userId).then((res) => {
+      setSession({
+        userId: res.id,
+      });
       navigate("/sign-in");
-    } catch (error) {
-      console.log("Failed delete user: ", error);
-    }
+    });
   };
 
   return (

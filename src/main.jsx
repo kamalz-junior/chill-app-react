@@ -16,6 +16,8 @@ import Watchlist from "~/pages/watchlist";
 import CardSubscibe from "./components/card-subscribe";
 import Premium from "./pages/premium";
 import WatchMovie from "./pages/watch-movie";
+import MovieDetail from "~/pages/movie-detail";
+import SeriesDetail from "~/pages/series-detail";
 
 const root = createRoot(document.getElementById("root"));
 
@@ -29,7 +31,9 @@ root.render(
         <Route element={<UserLayout />}>
           <Route index element={<Home />} />
           <Route path="movies" element={<Movies />} />
+          <Route path="movies/:movieId" element={<MovieDetail />} />
           <Route path="series" element={<Series />} />
+          <Route path="series/:seriesId" element={<SeriesDetail />} />
           <Route path="watch" element={<Watch />} />
           <Route path="watch-movie" element={<WatchMovie />} />
           <Route path="watchlist" element={<Watchlist />} />
