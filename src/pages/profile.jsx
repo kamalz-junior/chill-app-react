@@ -5,27 +5,21 @@ import CardSubscibe from "~/components/card-subscribe";
 import Button from "~/components/ui/button";
 import Input from "~/components/ui/input";
 import { API_URL, deleteUser, getUser, updateUser } from "~/lib/api";
-import { useSession } from "~/lib/store";
+import { useUser } from "~/lib/store";
 
 export default function Profile() {
   const [isEdit, setIsEdit] = useState(false);
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
   const [checkout, setCheckout] = useState(null);
 
-  const { session, setSession } = useSession();
+  const { user, setUser } = useUser();
 
-  console.log(API_URL);
-
-  useEffect(() => {
-    getUser(session.userId).then((res) => {
-      setUser(res);
-    });
-  }, []);
-
-  if (!user) return;
-
-  // Pastikan transaction ada sebelum mengakses date
+  // Pastikan;
+  // transaction;
+  // ada;
+  // sebelum;
+  // mengakses;
+  // date;
   // const transactionDate = transaction?.date
   //   ? new Date(transaction.date)
   //   : new Date();
@@ -35,7 +29,7 @@ export default function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await updateUser(session.userId, user).then(() => {
+    await updateUser(user.id, user).then(() => {
       setIsEdit(false);
     });
   };
@@ -43,10 +37,8 @@ export default function Profile() {
   const handleDeleteAccount = async (e) => {
     e.preventDefault();
 
-    await deleteUser(session.userId).then((res) => {
-      setSession({
-        userId: res.id,
-      });
+    await deleteUser(session.userId).then(() => {
+      setUser(null);
       navigate("/sign-in");
     });
   };
@@ -54,11 +46,11 @@ export default function Profile() {
   return (
     <main className="container space-y-8 py-8">
       <section className="flex flex-col gap-6 md:flex-row-reverse">
-        {/* <CardSubscibe
-          isPremium={user.isPremium}
-          name={checkout.plan.name}
-          date={formatDate(expired)}
-        /> */}
+        <CardSubscibe
+        // isPremium={user.isPremium}
+        // name={checkout.plan.name}
+        // date={formatDate(expired)}
+        />
         <div className="w-full flex-1 space-y-6">
           <h1 className="font-medium text-2xl">My Profile</h1>
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -115,7 +107,7 @@ export default function Profile() {
             </div>
             <div className="space-y-2">
               <Button type="submit" disabled={!isEdit} className="w-full">
-                Simpan
+                Save
               </Button>
               <Button
                 type="button"
@@ -131,13 +123,13 @@ export default function Profile() {
         </div>
       </section>
       <div className="space-y-2">
-        <h2 className="font-medium">Hapus Akun</h2>
+        <h2 className="font-medium">Delete Account</h2>
         <Button
           variant="outline"
           onClick={handleDeleteAccount}
           className="border-red-500 bg-transparent text-red-500 transition duration-150 hover:bg-red-500 hover:text-white"
         >
-          Hapus Akun
+          Delete Account
         </Button>
       </div>
     </main>

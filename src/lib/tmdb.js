@@ -66,9 +66,9 @@ export async function getTrending(media, page = 1) {
   return await fetchTMDB(`/trending/${media}/week`, { page });
 }
 
-export async function getTop(media = "movie", page = 1) {
-  return await fetchTMDB(`/${media}/top_rated`, { page });
-}
+// export async function getTop(media = "movie", page = 1) {
+//   return await fetchTMDB(`/${media}/top_rated`, { page });
+// }
 
 export async function getMediaByGenre(media, genre, page = 1) {
   return await fetchTMDB(`/disover/${media}`, {

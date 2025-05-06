@@ -6,13 +6,13 @@ import { tmdbImage } from "~/lib/utils";
 export default function PosterInfo({ data, className, ...props }) {
   return (
     <section
-      className={`relative aspect-2/3 rounded-lg bg-cover bg-top before:absolute before:inset-0 before:bg-linear-to-t before:from-black before:content-[''] md:aspect-[2.39/1] md:before:bg-linear-to-r ${className}`}
+      className={`relative aspect-2/3 bg-cover bg-top before:absolute before:inset-0 before:bg-linear-to-t before:from-black before:content-[''] md:aspect-[2.39/1] md:before:bg-linear-to-r ${className}`}
       style={{
         backgroundImage: `url(${tmdbImage(data.backdrop_path)})`,
       }}
       {...props}
     >
-      <div className="absolute bottom-0 space-y-4 p-6 md:px-0">
+      <div className="absolute right-0 bottom-20 space-y-4 p-6 md:left-14 md:px-0">
         <h1 className="font-medium text-4xl text-white">
           {data.title || data.name}
         </h1>
@@ -26,9 +26,13 @@ export default function PosterInfo({ data, className, ...props }) {
         </div>
         <div className="flex items-center gap-2">
           {data.genres.map((g) => {
-            <Badge key={g.id}>{g.name}</Badge>;
+            <Badge key={g.id} variant="ghost">
+              {/* {g.name} */}
+              <p>lala</p>
+            </Badge>;
           })}
         </div>
+        {console.log(data.genres)}
         <p className="max-w-xl text-muted-foreground text-sm md:text-base">
           {data.overview}
         </p>

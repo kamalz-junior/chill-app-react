@@ -23,13 +23,13 @@ export default function Features({ className }) {
 }
 
 const features = [
-  { label: "Download Konten Pilihan", icon: <Download /> },
-  { label: "Tidak ada iklan", icon: <FlagOff /> },
-  { label: "Tonton Semua Konten ", icon: <GalleryHorizontal /> },
-  { label: "Kualitas Maksimal Sampai Dengan 4K", icon: <TvMinimal /> },
+  { label: "Download Selected Content", icon: <Download /> },
+  { label: "No ads", icon: <FlagOff /> },
+  { label: "Watch All Content ", icon: <GalleryHorizontal /> },
+  { label: "Maximum Quality Up to 4K", icon: <TvMinimal /> },
   {
-    label: "Tonton di Tv, Tablet, Mobile, dan Laptop",
+    label: "Watch on TV, Tablet, Mobile, and Laptop",
     icon: <TabletSmartphone />,
   },
-  { label: "Subtitle Untuk Konten Pilihan", icon: <Captions /> },
+  { label: "Subtitles for Selected Content", icon: <Captions /> },
 ];

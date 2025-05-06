@@ -6,9 +6,10 @@ import Carousel from "~/components/ui/carousel";
 import {
   getMovie,
   getMovies,
-  getTop,
+  // getTop,
   getTrending,
   getTvShow,
+  getTvShows,
   getWatchlist,
 } from "~/lib/tmdb";
 
@@ -27,13 +28,15 @@ export default function Home() {
           moviesWatchlistRes,
           tvWatchlistRes,
           trendingRes,
-          topRes,
+          // topRes,
+          topSeriesRes,
           newReleaseRes,
         ] = await Promise.all([
           getWatchlist("movies"),
           getWatchlist("tv"),
           getTrending("all"),
-          getTop("tv"),
+          // getTop("tv"),
+          getTvShows("top_rated"),
           getMovies("now_playing"),
         ]);
 
@@ -54,7 +57,7 @@ export default function Home() {
           ...tvWatchlistRes.results,
         ]);
         setTrending(trendingRes.results);
-        setTop(topRes.results);
+        setTop(topSeriesRes.results);
         setNewRelease(newReleaseRes.results);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -70,7 +73,7 @@ export default function Home() {
 
   return (
     <main className="space-y-8 pb-8">
-      <PosterInfo data={movie} className="px-16" />
+      <PosterInfo data={movie} className="px-16 " />
       <section className="container space-y-4">
         <h2 className="font-medium text-xl">Continue watching</h2>
         <Carousel controls>
@@ -78,9 +81,14 @@ export default function Home() {
             <Link
               key={w.id}
               to={`/movies/${w.id}`}
-              className="min-w-0 shrink-0 grow-0 basis-1/3 lg:basis-1/5"
+              className="min-w-0 shrink-0 grow-0 basis-1/1 lg:basis-1/4"
             >
-              <PosterCard title={w.title} src={w.poster_path} premium={false} />
+              <PosterCard
+                title={w.title}
+                src={w.backdrop_path}
+                premium={false}
+                className="relative aspect-21/9 overflow-hidden rounded-md md:aspect-video"
+              />
             </Link>
           ))}
         </Carousel>

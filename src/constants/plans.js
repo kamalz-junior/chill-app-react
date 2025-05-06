@@ -1,9 +1,8 @@
 export const plans = [
   {
-    id: "plan_individu",
-    name: "Individu",
-    description:
-      "Streaming terjangkau untuk satu pengguna dengan kualitas standar",
+    id: "plan_individual",
+    name: "Individual",
+    description: "Affordable streaming for one user with standard quality",
     price: {
       monthly: 49990,
       currency: "IDR",
@@ -13,11 +12,15 @@ export const plans = [
       resolution: "HD",
       downloads: "Unlimited",
     },
-    features: ["Tidak ada iklan", "Kualitas 720p", "Download konten pilihan"],
+    features: [
+      "Ad-supported streaming",
+      "Mobile and web access",
+      "Basic library access",
+    ],
   },
   {
-    id: "plan_berdua",
-    name: "Berdua",
+    id: "plan_duo",
+    name: "Duo",
     description: "FHD streaming for small households or with friends",
     price: {
       monthly: 79990,
@@ -28,11 +31,16 @@ export const plans = [
       resolution: "FHD",
       downloads: "Unlimited",
     },
-    features: ["Tidak ada iklan", "Kualitas 1080p", "Download konten pilihan"],
+    features: [
+      "Add-fre streaming",
+      "FHD quality",
+      "Offline downloads",
+      "Multi-device support",
+    ],
   },
   {
-    id: "plan_keluarga",
-    name: "Keluarga",
+    id: "plan_family",
+    name: "Family",
     description: "Ultimate 4K experience for families or enthusiasts",
     price: {
       monthly: 159990,
@@ -43,6 +51,12 @@ export const plans = [
       resolution: "4K",
       downloads: "Unlimited",
     },
-    features: ["Tidak ada iklan", "Kualitas 4K", "Download konten pilihan"],
+    features: [
+      "Add-fre streaming",
+      "FHD quality",
+      "Offline downloads",
+      "Multi-device support",
+      "Exclusice content access",
+    ],
   },
 ];

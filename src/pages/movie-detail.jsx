@@ -23,9 +23,9 @@ export default function MovieDetail() {
   if (!movie) return;
 
   return (
-    <main className="container space-y-8">
+    <main className="space-y-8">
       <PosterInfo data={movie} />
-      <section className="space-y-6">
+      <section className="container space-y-6">
         <h2 className="font-medium text-2xl">Recommendations</h2>
         <Carousel controls>
           {recommendations.map((r) => (

@@ -17,12 +17,12 @@ export default function CardSubscibe({ isPremium, name, date }) {
           )}
           <div className="space-y-1">
             <h3 className="font-medium text-xs md:text-base">
-              {isPremium ? `Akun Premium ${name}✨` : "Anda belum Berlangganan"}
+              {isPremium ? `Premium ${name}✨` : "Subscription"}
             </h3>
             <p className="w-full text-xs md:text-base">
               {isPremium
-                ? "Saat ini kamu sedang menggunakan akses akun premium"
-                : "Dapatkan Akses Tak Terbatas ke Ribuan Film dan Series Kesukaan Kamu!"}
+                ? "You are currently using premium account access"
+                : "Get Unlimited Access to Thousands of Your Favorite Movies and Series!"}
             </p>
           </div>
           {!isPremium ? (
