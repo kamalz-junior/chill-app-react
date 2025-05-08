@@ -58,17 +58,15 @@ export default function Payment() {
           <div className="flex size-6 items-center justify-center rounded-full border bg-green-500">
             <Check className="size-4" />
           </div>
-          Transaksi Berhasil
+          Payment Success
         </div>
       ) : (
         <>
           <div className="space-y-4 rounded-md bg-muted p-6">
-            <p className="text-center font-medium">
-              Lakukan Pembayaran sebelum
-            </p>
+            <p className="text-center font-medium">Make payment before</p>
             <CountDown time={COUNT_TIME} />
           </div>
-          <h1 className="font-medium text-xl">Transaksi Pembayaran</h1>
+          <h1 className="font-medium text-xl">Transaction Payment</h1>
           <div className="grid gap-6 md:grid-cols-3">
             <PlanCard plan={checkout.plan} />
             <form
@@ -78,7 +76,7 @@ export default function Payment() {
             >
               <div className="grid gap-2 *:text-sm">
                 <label htmlFor="payment-method" className="font-medium">
-                  Metode Pembayaran
+                  Payment method
                 </label>
                 <label className="flex items-center gap-4 rounded-md border p-4 font-medium text-sm has-checked:border-primary has-checked:bg-primary/10">
                   <Radio
@@ -90,13 +88,11 @@ export default function Payment() {
                   E-Wallet
                 </label>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">
-                    Tanggal Pembelian
-                  </span>
+                  <span className="text-muted-foreground">Buy Dates</span>
                   <span className="justify-end text-sm">{checkout.date}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Kode Transaksi</span>
+                  <span className="text-muted-foreground">Code Transactin</span>
                   <div className="flex items-center gap-1">
                     <span className="justify-end text-sm">
                       {transaction.id}
@@ -113,7 +109,7 @@ export default function Payment() {
                 </div>
               </div>
               <div className="grid gap-2">
-                <label className="font-medium">Rincian Transaksi</label>
+                <label className="font-medium">Transaction Summary</label>
                 <div className="grid gap-2 *:text-sm">
                   <div className="flex items-center justify-between">
                     <span className="text-muted-foreground">
@@ -133,9 +129,7 @@ export default function Payment() {
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">
-                      Total Pembayaran
-                    </span>
+                    <span className="text-muted-foreground">Total Payment</span>
                     <span className="justify-end">
                       {formatCurrency(total, checkout.plan.price.currency)}
                     </span>
@@ -143,7 +137,7 @@ export default function Payment() {
                 </div>
               </div>
               <Button type="submit" className="w-full">
-                Bayar
+                Pay
               </Button>
             </form>
           </div>

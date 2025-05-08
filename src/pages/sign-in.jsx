@@ -1,29 +1,21 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import Button, {} from "~/components/ui/button";
 import Input from "~/components/ui/input";
 import { signIn } from "~/lib/actions";
-import { useSession } from "~/lib/store";
+import { useUser } from "~/lib/store";
 
 export default function SignIn() {
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-  });
-
   const navigate = useNavigate();
-  const { session, setSession } = useSession();
+  const { user, setUser } = useUser();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    await signIn(user).then((result) => {
-      if (!result) return
-      
-      setSession({
-        userId: result.id,
-      });
-      navigate("/")
+
+    await signIn(user).then((res) => {
+      if (!res) return;
+
+      setUser(res);
+      navigate("/");
     });
   };
 
@@ -45,7 +37,6 @@ export default function SignIn() {
             <Input
               id="username"
               placeholder="Masukan username"
-              defaultValue={user.username}
               onChange={(e) =>
                 setUser({
                   ...user,
@@ -63,7 +54,6 @@ export default function SignIn() {
               id="password"
               type="password"
               placeholder="Masukan kata sandi"
-              defaultValue={user.password}
               onChange={(e) =>
                 setUser({
                   ...user,

@@ -1,49 +1,25 @@
 import { Camera } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import CardSubscibe from "~/components/card-subscribe";
 import Button from "~/components/ui/button";
 import Input from "~/components/ui/input";
-import { useSession } from "~/lib/store";
-import { API_URL } from "~/service/api";
+import { API_URL, deleteUser, getUser, updateUser } from "~/lib/api";
+import { useUser } from "~/lib/store";
 
 export default function Profile() {
   const [isEdit, setIsEdit] = useState(false);
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true)
-  
-  const {session} = useSession();
+  const [checkout, setCheckout] = useState(null);
 
-  console.log(API_URL)
+  const { user, setUser } = useUser();
 
-  useEffect(() => {
-    getUser(session.userId).then((result) => {
-      setUser(result);
-    });
-
-    async function getUser(id) {
-      try {
-        const response = await fetch(`${API_URL}/users/${id}`);
-
-        if(!response.ok){
-          throw new Error(`Response status: ${response.status}`);
-        }
-        const data = await response.json();
-        setUser(data);
-        setLoading(false);
-      } catch (error) {
-        console.log("Failed fetch user: ", error);
-      }
-    }
-    getUser(USER_ID);
-  }, []);
-
-  // Jika data belum siap, tampilkan loading
-  if (loading) {
-    return <p className="text-center">Loading...</p>;
-  }
-
-  // Pastikan transaction ada sebelum mengakses date
+  // Pastikan;
+  // transaction;
+  // ada;
+  // sebelum;
+  // mengakses;
+  // date;
   // const transactionDate = transaction?.date
   //   ? new Date(transaction.date)
   //   : new Date();
@@ -52,49 +28,29 @@ export default function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch(`${API_URL}/users/${id}`, {
-        method: "PUT", 
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
 
-      if(!response.ok){
-        return new Error("Response status: ", response.status);
-      }
-      console.log("Berhasil diubah");
-    } catch (error) {
-      console.error("Failed update user : ", error);
-    }
+    await updateUser(user.id, user).then(() => {
+      setIsEdit(false);
+    });
   };
 
-  const handleDeleteAccount = async () => {
-    
-    try {
-      const response = await fetch(`${API_URL}/users/${USER_ID}`, {
-        method: "DELETE",
-      })
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
 
-      if(!response.ok){
-        return new Error("Response status: ", response.status);
-      }
-      
+    await deleteUser(session.userId).then(() => {
+      setUser(null);
       navigate("/sign-in");
-    } catch (error) {
-      console.log("Failed delete user: ", error);
-    }
+    });
   };
 
   return (
     <main className="container space-y-8 py-8">
       <section className="flex flex-col gap-6 md:flex-row-reverse">
-        {/* <CardSubscibe
-          isPremium={user.isPremium}
-          name={checkout.plan.name}
-          date={formatDate(expired)}
-        /> */}
+        <CardSubscibe
+        // isPremium={user.isPremium}
+        // name={checkout.plan.name}
+        // date={formatDate(expired)}
+        />
         <div className="w-full flex-1 space-y-6">
           <h1 className="font-medium text-2xl">My Profile</h1>
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -151,7 +107,7 @@ export default function Profile() {
             </div>
             <div className="space-y-2">
               <Button type="submit" disabled={!isEdit} className="w-full">
-                Simpan
+                Save
               </Button>
               <Button
                 type="button"
@@ -167,13 +123,13 @@ export default function Profile() {
         </div>
       </section>
       <div className="space-y-2">
-        <h2 className="font-medium">Hapus Akun</h2>
+        <h2 className="font-medium">Delete Account</h2>
         <Button
           variant="outline"
           onClick={handleDeleteAccount}
           className="border-red-500 bg-transparent text-red-500 transition duration-150 hover:bg-red-500 hover:text-white"
         >
-          Hapus Akun
+          Delete Account
         </Button>
       </div>
     </main>

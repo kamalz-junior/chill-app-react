@@ -2,40 +2,22 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import Button, {} from "~/components/ui/button";
 import Input from "~/components/ui/input";
-import { API_URL } from "~/service/api";
+import { API_URL, createUser } from "~/lib/api";
 
 export default function SignUp() {
   const [user, setUser] = useState({
     username: "",
     password: "",
-    confirmPassword: "",
-    isPremium: false,
   });
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { confirmPassword, ...data } = user;
 
-    try {
-      const response = await fetch(`${API_URL}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type" : "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-      if (!response.oke){
-        return new Error("Response status: ", response.status);
-      }
-      console.log("berhasil")
+    await createUser(user).then(()=> {
       navigate("/sign-in");
-      console.log(response)
-
-    } catch (error) {
-      console.error("Failed fetch user: ", error);
-    }
+    })
   };
 
 
@@ -93,13 +75,6 @@ export default function SignUp() {
               id="password"
               type="password"
               placeholder="Konfirmasi Masukan kata sandi"
-              defaultValue={user.confirmPassword}
-              onChange={(e) =>
-                setUser({
-                  ...user,
-                  confirmPassword: e.target.value,
-                })
-              }
               required
             />
           </div>

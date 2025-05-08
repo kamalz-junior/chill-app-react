@@ -7,17 +7,15 @@ export default function Premium() {
     <main className="container space-y-8 py-8">
       <section className="space-y-6">
         <div className="space-y-2 py-4">
-          <h1 className="text-center font-medium text-xl">
-            Kenapa harus Berlangganan
-          </h1>
+          <h1 className="text-center font-medium text-xl">Why Subscribe</h1>
         </div>
         <Features />
       </section>
       <section className="space-y-6">
         <div className="space-y-2 py-4">
-          <h1 className="text-center font-medium text-xl">Pilih Paketmu</h1>
+          <h1 className="text-center font-medium text-xl">Choose your plan</h1>
           <p className="text-center text-muted-foreground">
-            Temukan paket sesuai kebutuhanmu.
+            Find a plan that suits your needs.
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-3">

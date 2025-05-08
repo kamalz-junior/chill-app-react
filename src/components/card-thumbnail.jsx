@@ -7,7 +7,7 @@ export default function CardThumbnail({ data, className, ...props }) {
         className="relative aspect-21/9 overflow-hidden rounded-md md:aspect-video"
         {...props}
       >
-        <div className="absolute inset-0 bg-linear-to-t from-black/50" />
+        {/* <div className="absolute inset-0 bg-linear-to-t from-black/50" />
         <img src={data.thumbnail} alt="" className="size-full object-cover" />
         <div className="absolute bottom-0 flex w-full items-center justify-between gap-2 p-4">
           <h3 className="text-sm text-white">{data.name}</h3>
@@ -15,7 +15,7 @@ export default function CardThumbnail({ data, className, ...props }) {
             <Star className="size-4 text-white" />
             <span className="text-sm text-white">{data.rating}</span>
           </div>
-        </div>
+        </div> */}
       </figure>
     </div>
   );

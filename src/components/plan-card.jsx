@@ -12,13 +12,13 @@ export default function PlanCard({ plan, className }) {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <h3 className="font-medium text-lg">{plan.name}</h3>
-          {plan.name === "Duo" && <Badge>Populer</Badge>}
+          {plan.name === "Duo" && <Badge>Popular</Badge>}
         </div>
         <div className="flex items-end gap-2 py-2">
           <span className="font-medium text-2xl">
             {formatCurrency(plan.price.monthly, plan.price.currency)}
           </span>
-          <span className="text-muted-foreground">/ Bulan</span>
+          <span className="text-muted-foreground">/ Month</span>
         </div>
         <p className="text-muted-foreground text-sm">{plan.description}</p>
       </div>
@@ -37,7 +37,7 @@ export default function PlanCard({ plan, className }) {
         to={`/checkout/${plan.id}`}
         className={button({ className: "w-full" })}
       >
-        Langganan
+        Subscribe
       </Link>
     </div>
   );

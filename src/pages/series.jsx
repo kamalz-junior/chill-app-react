@@ -1,190 +1,118 @@
-import { ChevronDown, VolumeOff } from "lucide-react";
 import { useEffect, useState } from "react";
-import CardPoster from "~/components/card-poster";
-import CardThumbnail from "~/components/card-thumbnail";
-import SeriesDetail from "~/components/series-detail";
-import Badge from "~/components/ui/badge";
-import Button from "~/components/ui/button";
+import { Link } from "react-router";
+import PosterCard from "~/components/poster-card";
+import PosterInfo from "~/components/poster-info";
 import Carousel from "~/components/ui/carousel";
-import Dialog from "~/components/ui/dialog";
-import { genres } from "~/constants/genres";
-import { data } from "~/data/data";
-import { tedLasso } from "~/data/series";
-import { getTv, getTvPopular, getTvRelease, getTvTop } from "~/service/api";
+import { getTrending, getTvShow, getTvShows, getWatchlist } from "~/lib/tmdb";
 
 export default function Series() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isOpenGenre, setIsOpenGenre] = useState(false);
-  const [tv, setTv] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [series, setSeries] = useState(null);
+  const [watchlist, setWatchlist] = useState([]);
   const [top, setTop] = useState([]);
-  const [popular, setPopular] = useState([]);
-  const [release, setRelease] = useState([]);
+  const [trending, setTrending] = useState([]);
+  const [newRelease, setNewRelease] = useState([]);
 
   useEffect(() => {
-     getTv().then((result) => {
-      setTv(result)
-    })
-     getTvTop().then((result) => {
-      setTop(result)
-    })
-     getTvPopular().then((result) => {
-      setPopular(result)
-    })
-     getTvRelease().then((result) => {
-      setRelease(result)
-    })
-  }, [])
+    const fetchData = async () => {
+      try {
+        const [watchlistRes, trendingRes, topRes, newReleaseRes] =
+          await Promise.all([
+            getWatchlist("tv"),
+            getTrending("tv"),
+            getTvShow("top_rated"),
+            getTvShows("airing_today"),
+          ]);
 
-  const history = data.filter(
-    (item) => item.status === "watching" && item.type === "series",
-  );
+        getTvShow(trendingRes.results[0].id).then((res) => {
+          setSeries(res);
+        });
 
-  const series = tv;
-  const seriesTop = top;
-  const trending = popular;
-  const rilis = release;
-  
+        setWatchlist(watchlistRes.results);
+        setTop(topRes.results);
+        setTrending(trendingRes.results);
+        setNewRelease(newReleaseRes.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!series || isLoading) return;
 
   return (
     <main className="space-y-8 pb-8">
-      <section className="relative">
-        <div className="absolute inset-0 bg-linear-to-t from-black" />
-        <img
-          src="images/hero-series.png"
-          alt=""
-          className="aspect-video h-[520px] w-screen overflow-x-visible object-cover"
-        />
-        <div className="absolute bottom-0 w-full">
-          <div className="container space-y-6 py-6">
-            <div className="space-y-4">
-              <div
-                onMouseOver={() => setIsOpenGenre(true)}
-                onMouseLeave={() => setIsOpenGenre(false)}
-                className="relative z-50 inline-block py-8"
-              >
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  className="text-white hover:text-foreground"
-                >
-                  Genre
-                  <ChevronDown
-                    className={`${isOpen ? "rotate-180" : ""} size-4 transition-transform`}
-                  />
-                </Button>
-                {isOpenGenre ? (
-                  <div className="-translate-x-1/6 absolute left-1/2 z-50">
-                    <ul className="grid w-[280px] grid-cols-2 gap-x-8 rounded-md border bg-black/90 p-4">
-                      {genres.map((genre) => (
-                        <li key={genre.label}>
-                          <a
-                            href={genre.href}
-                            className="inline-block py-1 font-medium text-muted-foreground text-sm hover:text-foreground"
-                          >
-                            {genre.label}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-              </div>
-              <h1 className="font-medium text-3xl text-white">
-                Duty After School
-              </h1>
-              <p className="line-clamp-2 max-w-xl text-sm text-white md:line-clamp-none">
-                Mengisahkan tentang kelompok orang yang berjuang untuk bertahan
-                hidup di dalam sebuah gedung apartemen yang penuh dengan zombie.
-                Sayangnya, virus zombie hanya terdapat di dalam area apartemen
-                tersebut dan tidak menyebar ke luar kawasan apartemen.
-              </p>
-            </div>
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <Button>Mulai</Button>
-                <Button variant="secondary">Selengkapnya</Button>
-                <Badge variant="outline" className="px-4 py-2">
-                  18+
-                </Badge>
-              </div>
-              <Button
-                variant="outline"
-                size="icon"
-                className="bg-transparent text-white hover:bg-transparent"
-              >
-                <VolumeOff className="size-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="container space-y-6">
-        <h2 className="font-medium text-xl">Melanjutkan Tonton Series</h2>
+      <PosterInfo data={series} className="px-16" />
+      <section className="container space-y-4">
+        <h2 className="font-medium text-xl">Continue watching</h2>
         <Carousel controls>
-          {history.map((item) => (
-            <CardThumbnail
-              key={item.id}
-              data={item}
-              className="min-w-0 shrink-0 grow-0 basis-full lg:basis-1/4"
-            />
+          {watchlist.map((w) => (
+            <Link
+              key={w.id}
+              to={`/series/${w.id}`}
+              className="min-w-0 shrink-0 grow-0 basis-1/1 lg:basis-1/4"
+            >
+              <PosterCard
+                title={w.title}
+                src={w.backdrop_path}
+                premium={false}
+                className="relative aspect-21/9 overflow-hidden rounded-md md:aspect-video"
+              />
+            </Link>
           ))}
         </Carousel>
       </section>
-      <section className="container space-y-6">
-        <h2 className="font-medium text-xl">Series Persembahan Chill</h2>
+      <section className="container space-y-4">
+        <h2 className="font-medium text-xl">Top Series</h2>
+        {console.log(top)}
         <Carousel controls>
-          {series.map((item) => (
-            <CardPoster
-              key={item.id}
-              data={item}
+          {top.map((t) => (
+            <Link
+              key={t.id}
+              to={`/tv/${t.id}`}
               className="min-w-0 shrink-0 grow-0 basis-1/3 lg:basis-1/5"
-              onClick={() => setIsOpen(true)}
-            />
+            >
+              <PosterCard title={t.name} src={t.poster_path} premium={false} />
+            </Link>
           ))}
         </Carousel>
       </section>
-      <section className="container space-y-6">
-        <h2 className="font-medium text-xl">Top Rating Series Hari ini</h2>
+      <section className="container space-y-4">
+        <h2 className="font-medium text-xl">Trending series</h2>
         <Carousel controls>
-          {seriesTop.map((item) => (
-            <CardPoster
-              key={item.id}
-              data={item}
+          {trending.map((t) => (
+            <Link
+              key={t.id}
+              to={`/series/${t.id}`}
               className="min-w-0 shrink-0 grow-0 basis-1/3 lg:basis-1/5"
-              onClick={() => setIsOpen(true)}
-            />
+            >
+              <PosterCard
+                title={t.name || t.title}
+                src={t.poster_path}
+                premium={false}
+              />
+            </Link>
           ))}
         </Carousel>
       </section>
-      <section className="container space-y-6">
-        <h2 className="font-medium text-xl">Series Trending</h2>
+      <section className="container space-y-4">
+        <h2 className="font-medium text-xl">New release</h2>
         <Carousel controls>
-          {trending.map((item) => (
-            <CardPoster
-              key={item.id}
-              data={item}
+          {newRelease.map((n) => (
+            <Link
+              key={n.id}
+              to={`/series/${n.id}`}
               className="min-w-0 shrink-0 grow-0 basis-1/3 lg:basis-1/5"
-              onClick={() => setIsOpen(true)}
-            />
+            >
+              <PosterCard title={n.title} src={n.poster_path} premium={false} />
+            </Link>
           ))}
         </Carousel>
       </section>
-      <section className="container space-y-6">
-        <h2 className="font-medium text-xl">Rilis Baru</h2>
-        <Carousel controls>
-          {rilis.map((item) => (
-            <CardPoster
-              key={item.id}
-              data={item}
-              className="min-w-0 shrink-0 grow-0 basis-1/3 lg:basis-1/5"
-              onClick={() => setIsOpen(true)}
-            />
-          ))}
-        </Carousel>
-      </section>
-      <Dialog isOpen={isOpen} setIsOpen={setIsOpen}>
-        <SeriesDetail data={tedLasso} />
-      </Dialog>
     </main>
   );
 }
